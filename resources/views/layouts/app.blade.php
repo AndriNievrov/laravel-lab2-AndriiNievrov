@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+ @if(session('success'))
+<div class="alert alert-success">
+{{ session('success') }}
+</div>
+@endif
     <title>@yield('title')</title>
 
     <!-- Bootstrap CDN -->

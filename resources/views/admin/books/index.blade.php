@@ -6,6 +6,16 @@
 
 <h1>Список книг</h1>
 
+<a href="{{ route('admin.books.create') }}" class="btn btn-primary mb-3">
+Додати книгу
+</a>
+
+@if(session('success'))
+<div class="alert alert-success">
+{{ session('success') }}
+</div>
+@endif
+
 <table class="table">
 
 <tr>
