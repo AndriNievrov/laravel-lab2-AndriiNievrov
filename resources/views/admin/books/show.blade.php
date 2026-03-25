@@ -1,14 +1,13 @@
 @extends('layouts.app')
 
-@section('title','Книга')
-
 @section('content')
 
 <h1>{{ $book['title'] }}</h1>
 
 <p>Автор: {{ $book['author'] }}</p>
+<p>Ціна: {{ $book['price'] }}</p>
 
-<a href="{{ route('admin.books.index') }}" class="btn btn-primary">
+<a href="{{ route('admin.books.index') }}" class="btn btn-secondary">
 Назад
 </a>
 

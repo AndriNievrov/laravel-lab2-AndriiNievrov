@@ -7,49 +7,43 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    private $books = [
-        1 => ["title"=>"Книга 1","author"=>"Автор 1"],
-        2 => ["title"=>"Книга 2","author"=>"Автор 2"],
-        3 => ["title"=>"Книга 3","author"=>"Автор 3"]
-    ];
-
-    // INDEX
     public function index()
     {
-        $books = $this->books;
+        $books = [
+            ['id'=>1,'title'=>'Laravel','author'=>'Taylor','price'=>100],
+            ['id'=>2,'title'=>'PHP','author'=>'Rasmus','price'=>150],
+        ];
+
         return view('admin.books.index', compact('books'));
     }
 
-    // SHOW
-    public function show($id)
-    {
-        $book = $this->books[$id];
-        return view('admin.books.show', compact('book'));
-    }
-
-    // DESTROY
-    public function destroy($id)
-    {
-        return redirect()->route('admin.books.index')
-            ->with('success','Книгу видалено (демо)');
-    }
-
-    // CREATE
     public function create()
     {
         return view('admin.books.create');
     }
 
-    // STORE
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required',
-            'author' => 'required',
-            'price' => 'required|numeric|min:1'
+        $request->validate([
+            'title'=>'required',
+            'author'=>'required',
+            'price'=>'required|numeric'
         ]);
 
         return redirect()->route('admin.books.index')
-            ->with('success', 'Книгу успішно додано!');
+            ->with('success','Книгу додано');
+    }
+
+    public function show($id)
+    {
+        $book = ['id'=>$id,'title'=>"Книга $id",'author'=>'Автор','price'=>100];
+
+        return view('admin.books.show', compact('book'));
+    }
+
+    public function destroy($id)
+    {
+        return redirect()->route('admin.books.index')
+            ->with('success','Видалено');
     }
 }
