@@ -4,33 +4,48 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Book;
 
 class BookController extends Controller
 {
-    public function index()
-    {
-        return response()->json(Book::all());
-    }
+    private $books = [
+        [
+            "id" => 1,
+            "title" => "Кобзар",
+            "category" => "Поезія"
+        ],
+        [
+            "id" => 2,
+            "title" => "Лісова пісня",
+            "category" => "Драма"
+        ],
+        [
+            "id" => 3,
+            "title" => "Захар Беркут",
+            "category" => "Історія"
+        ]
+    ];
 
-    public function show($id)
+    public function index(Request $request)
     {
-        $book = Book::find($id);
+        $category = $request->query('category');
 
-        if (!$book) {
-            return response()->json(['message' => 'Not found'], 404);
+        if ($category) {
+            return response()->json(
+                array_values(array_filter($this->books, function ($book) use ($category) {
+                    return $book['category'] == $category;
+                }))
+            );
         }
 
-        return response()->json($book);
+        return response()->json($this->books);
     }
 
-    public function store(Request $request)
+    public function categories()
     {
-        $book = Book::create([
-            'title' => $request->title,
-            'author' => $request->author
+        return response()->json([
+            "Поезія",
+            "Драма",
+            "Історія"
         ]);
-
-        return response()->json($book, 201);
     }
 }
